@@ -84,3 +84,8 @@ def delete_book(book_id: int, db: Session = Depends(get_db)):
 @app.get("/documentation", response_class=HTMLResponse, tags=["Docs"])
 def get_documentation():
     return FileResponse("docs/index.html")
+
+# Health check para testes
+@app.get("/", tags=["Docs"])
+def root():
+    return {"status": "ok"}
