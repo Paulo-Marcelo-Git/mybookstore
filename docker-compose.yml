@@ -1,14 +1,31 @@
-version: "3.9"
 services:
-  api:
-    build: .
+  backend:
+    build: ./bookstore-api
     container_name: bookstore-api
-    env_file: .env
-    volumes:
-      - ./:/app
+    env_file:
+      - ./bookstore-api/.env
     ports:
       - "8000:8000"
+    volumes:
+      - ./bookstore-api:/app
     restart: unless-stopped
+    networks:
+      - app-network
+
+  # frontend:
+  #   build: ./bookstore-react
+  #   container_name: bookstore-react
+  #   env_file:
+  #     - ./bookstore-react/.env
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./bookstore-react:/app
+  #   stdin_open: true
+  #   tty: true
+  #   restart: unless-stopped
+  #   networks:
+  #     - app-network
 
   adminer:
     image: adminer
@@ -16,3 +33,9 @@ services:
     restart: always
     ports:
       - "8080:8080"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
