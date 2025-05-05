@@ -34,7 +34,7 @@ jobs:
         pip install pytest cryptography
 
     - name: Define PYTHONPATH
-      run: echo "PYTHONPATH=./bookstore-api" >> $GITHUB_ENV
+      run: echo "PYTHONPATH=$(pwd)/bookstore-api" >> $GITHUB_ENV
 
     - name: Executa testes com SQLite
       working-directory: ./bookstore-api
