@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bookstore API Documentation</title>
+</head>
+<body>
+  <h1>📚 Bookstore API</h1>
+  <p>Use estes endpoints para gerenciar seus livros:</p>
+  <ul>
+    <!-- Nova rota -->
+    <li><strong>GET</strong> <code>/books/</code> – Lista todos os livros (apenas IDs e titles).</li>
+
+    <li><strong>POST</strong> <code>/books/</code> 
+      <pre>{
+  "title": "Título",
+  "author": "Autor",
+  "description": "Descrição"
+}</pre>
+      <p>Resposta inclui também <code>create_date</code> e <code>update_date</code>.</p>
+    </li>
+    <li><strong>GET</strong> <code>/books/{id}</code> – retorna o livro de ID dado, com campos:
+      <code>id, title, author, description, create_date, update_date</code>
+    </li>
+    <li><strong>PUT</strong> <code>/books/{id}</code> – atualiza os campos e retorna o objeto atualizado (campo <code>update_date</code> mudará)</li>
+    <li><strong>DELETE</strong> <code>/books/{id}</code> – move o registro para <code>books_delete</code> e retorna <code>{"ok": true}</code></li>
+  </ul>
+  <p>Abra também o Swagger UI automático em <code>/docs</code> ou visualize este HTML em <code>/documentation</code>.</p>
+</body>
+</html>
