@@ -10,20 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASS }}
-          MYSQL_DATABASE: ${{ secrets.DB_NAME }}
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
     steps:
     - name: Checkout do código
       uses: actions/checkout@v3
@@ -33,13 +19,13 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Cria arquivo .env com segredos
+    - name: Cria .env.test para uso com SQLite
       run: |
-        echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-        echo "DB_PASS=${{ secrets.DB_PASS }}" | sed 's/@/%40/g' >> .env
-        echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-        echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
-        echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+        echo "DB_USER=" > bookstore-api/.env.test
+        echo "DB_PASS=" >> bookstore-api/.env.test
+        echo "DB_HOST=" >> bookstore-api/.env.test
+        echo "DB_PORT=" >> bookstore-api/.env.test
+        echo "DB_NAME=test.db" >> bookstore-api/.env.test
 
     - name: Instala dependências
       run: |
@@ -47,7 +33,12 @@ jobs:
         pip install -r bookstore-api/requirements.txt
         pip install pytest cryptography
 
-    - name: Executa testes
+    - name: Define PYTHONPATH
+      run: echo "PYTHONPATH=./bookstore-api" >> $GITHUB_ENV
+
+    - name: Executa testes com SQLite
       working-directory: ./bookstore-api
+      env:
+        ENV_FILE: .env.test
       run: |
         pytest || echo "⚠️ Testes ainda não implementados"
