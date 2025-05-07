@@ -1,10 +1,10 @@
-# mybookstore\bookstore-api\tests\test_database.py
+# mybookstore/bookstore-api/tests/test_database.py
 
 import os
 import pytest
 from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
-from database import SessionLocal, get_db, engine, get_env_or_fail  # ⬅️ adicionada
+from database import SessionLocal, get_db, engine, get_env_or_fail
 from importlib import reload
 import database
 
@@ -32,7 +32,7 @@ def test_session_local_instance():
 
 def test_get_env_or_fail_raises(monkeypatch):
     monkeypatch.delenv("FAKE_ENV_VAR", raising=False)
-    with pytest.raises(ValueError, match="DB_NAME não definido no .env ou .env.test"):  # ⬅️ corrigido
+    with pytest.raises(ValueError, match="Variável de ambiente FAKE_ENV_VAR não definida"):
         get_env_or_fail("FAKE_ENV_VAR")
 
 
@@ -42,5 +42,5 @@ def test_reload_database_module_with_invalid_db(monkeypatch):
     monkeypatch.setenv("DB_PASS", "x")
     monkeypatch.setenv("DB_HOST", "x")
     monkeypatch.setenv("DB_PORT", "x")
-    with pytest.raises(ValueError, match="DB_NAME não definido no .env ou .env.test"):  # ⬅️ corrigido
+    with pytest.raises(ValueError, match="DB_NAME não definido no .env ou .env.test"):
         reload(database)
