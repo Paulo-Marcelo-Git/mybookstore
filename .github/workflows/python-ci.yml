@@ -36,9 +36,16 @@ jobs:
     - name: Define PYTHONPATH
       run: echo "PYTHONPATH=$(pwd)/bookstore-api" >> $GITHUB_ENV
 
-    - name: Executa testes com SQLite e mostra cobertura
+    - name: Executa testes com SQLite, mostra cobertura e salva HTML
       working-directory: ./bookstore-api
       env:
         ENV_FILE: .env.test
       run: |
-        pytest --cov=. || echo "⚠️ Testes ainda não implementados"
+        pytest --cov=. --cov-report=term-missing --cov-report=html || echo "⚠️ Testes ainda não implementados"
+
+    - name: Salva cobertura como artefato
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: bookstore-api/htmlcov
