@@ -5,7 +5,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# 🚀 Troca aqui: carrega .env.test se definido via ENV_FILE
 env_file = os.getenv("ENV_FILE", ".env")
 load_dotenv(dotenv_path=env_file)
 
@@ -15,7 +14,9 @@ DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
 DB_NAME = os.getenv("DB_NAME")
 
-# 🚀 Troca aqui: detecta se vai usar SQLite
+if not DB_NAME:
+    raise ValueError("DB_NAME não definido no .env ou .env.test")
+
 if DB_NAME == ":memory:" or DB_NAME.endswith(".db"):
     SQLALCHEMY_DATABASE_URL = f"sqlite:///{DB_NAME}"
     connect_args = {"check_same_thread": False}
@@ -26,8 +27,6 @@ else:
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args=connect_args, echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
-
-# Adicione isso no final de database.py
 
 def get_db():
     db = SessionLocal()

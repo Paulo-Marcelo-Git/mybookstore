@@ -1,3 +1,4 @@
+
 services:
   backend:
     build: ./bookstore-api
@@ -6,26 +7,33 @@ services:
       - ./bookstore-api/.env
     ports:
       - "8000:8000"
-    volumes:
-      - ./bookstore-api:/app
+    # volumes:
+    #   - ./bookstore-api:/app
     restart: unless-stopped
     networks:
       - app-network
+    stdin_open: true
+    tty: true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
-  # frontend:
-  #   build: ./bookstore-react
-  #   container_name: bookstore-react
-  #   env_file:
-  #     - ./bookstore-react/.env
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - ./bookstore-react:/app
-  #   stdin_open: true
-  #   tty: true
-  #   restart: unless-stopped
-  #   networks:
-  #     - app-network
+    # frontend:
+    #   build: ./bookstore-react
+    #   container_name: bookstore-react
+    #   env_file:
+    #     - ./bookstore-react/.env
+    #   ports:
+    #     - "3000:3000"
+    #   volumes:
+    #     - ./bookstore-react:/app
+    #   stdin_open: true
+    #   tty: true
+    #   restart: unless-stopped
+    #   networks:
+    #     - app-network
 
   adminer:
     image: adminer
@@ -35,6 +43,11 @@ services:
       - "8080:8080"
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080"]
+      interval: 30m
+      timeout: 10s
+      retries: 5
 
 networks:
   app-network:

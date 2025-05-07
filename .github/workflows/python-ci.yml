@@ -31,14 +31,14 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r bookstore-api/requirements.txt
-        pip install pytest cryptography
+        pip install pytest pytest-cov cryptography
 
     - name: Define PYTHONPATH
       run: echo "PYTHONPATH=$(pwd)/bookstore-api" >> $GITHUB_ENV
 
-    - name: Executa testes com SQLite
+    - name: Executa testes com SQLite e mostra cobertura
       working-directory: ./bookstore-api
       env:
         ENV_FILE: .env.test
       run: |
-        pytest || echo "⚠️ Testes ainda não implementados"
+        pytest --cov=. || echo "⚠️ Testes ainda não implementados"
