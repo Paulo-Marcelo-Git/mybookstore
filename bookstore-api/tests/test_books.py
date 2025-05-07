@@ -1,3 +1,5 @@
+# test_books.py
+
 import pytest
 
 def test_health_check(client):
@@ -8,7 +10,7 @@ def test_health_check(client):
 def test_create_book(client):
     payload = {"title": "Clean Code", "author": "Robert C. Martin", "description": "Código limpo."}
     response = client.post("/books/", json=payload)
-    assert response.status_code == 200
+    assert response.status_code == 201  # update: era 200
     data = response.json()
     assert data["title"] == "Clean Code"
     assert "id" in data
@@ -33,5 +35,5 @@ def test_update_book(client):
 def test_delete_book(client):
     new_book = client.post("/books/", json={"title": "To delete", "author": "X", "description": ""}).json()
     response = client.delete(f"/books/{new_book['id']}")
-    assert response.status_code == 200
-    assert response.json() == {"ok": True}
+    assert response.status_code == 204  # update: era 200
+    assert response.content == b''      # update: conteúdo vazio esperado com HTTP 204

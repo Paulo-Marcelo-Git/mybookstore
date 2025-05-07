@@ -72,7 +72,7 @@ def update_book(book_id: int, book: schemas.BookCreate, db: Session = Depends(ge
         raise HTTPException(status_code=404, detail="Livro não encontrado")
     for key, value in book.dict().items():
         setattr(db_book, key, value)
-    db_book.update_date = datetime.now(TZ).isoformat()
+    db_book.update_date = datetime.now(TZ)
     db.commit()
     db.refresh(db_book)
     return db_book
@@ -86,7 +86,7 @@ def delete_book(book_id: int, db: Session = Depends(get_db)):
         title=db_book.title,
         author=db_book.author,
         description=db_book.description,
-        delete_date=datetime.now(TZ).isoformat()
+        delete_date=datetime.now(TZ)
     )
     db.add(db_del)
     db.delete(db_book)
