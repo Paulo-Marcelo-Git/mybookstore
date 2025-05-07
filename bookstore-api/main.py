@@ -28,7 +28,6 @@ app = FastAPI(
     ]
 )
 
-# Middleware para logar todas as requisições
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     idem = f"{request.method} {request.url.path}"
@@ -52,7 +51,7 @@ def list_books(db: Session = Depends(get_db)):
 
 @app.post("/books/", response_model=schemas.Book, tags=["CRUD"], status_code=status.HTTP_201_CREATED)
 def create_book(book: schemas.BookCreate, db: Session = Depends(get_db)):
-    db_book = models.Book(**book.dict())
+    db_book = models.Book(**book.model_dump())
     db.add(db_book)
     db.commit()
     db.refresh(db_book)
@@ -70,7 +69,7 @@ def update_book(book_id: int, book: schemas.BookCreate, db: Session = Depends(ge
     db_book = db.query(models.Book).filter(models.Book.id == book_id).first()
     if not db_book:
         raise HTTPException(status_code=404, detail="Livro não encontrado")
-    for key, value in book.dict().items():
+    for key, value in book.model_dump().items():
         setattr(db_book, key, value)
     db_book.update_date = datetime.now(TZ)
     db.commit()
@@ -91,7 +90,7 @@ def delete_book(book_id: int, db: Session = Depends(get_db)):
     db.add(db_del)
     db.delete(db_book)
     db.commit()
-    return None  # status 204 exige que nada seja retornado
+    return None
 
 @app.get("/documentation", response_class=HTMLResponse, tags=["Docs"])
 def get_documentation():

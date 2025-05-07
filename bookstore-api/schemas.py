@@ -17,14 +17,15 @@ class Book(BookBase):
     create_date: datetime
     update_date: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = {
+        "from_attributes": True
+    }
 
 
-# Nova schema para retorno enxuto
 class BookSummary(BaseModel):
     id: int
     title: str
 
-    class Config:
-        from_attributes = True
+    model_config = {
+        "from_attributes": True
+    }
