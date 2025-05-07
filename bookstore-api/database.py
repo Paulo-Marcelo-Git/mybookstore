@@ -3,8 +3,13 @@ import os
 from urllib.parse import quote_plus
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker
+
+def get_env_or_fail(var_name: str) -> str:
+    value = os.getenv(var_name)
+    if not value:
+        raise ValueError(f"Variável de ambiente {var_name} não definida")
+    return value
 
 env_file = os.getenv("ENV_FILE", ".env")
 load_dotenv(dotenv_path=env_file)
