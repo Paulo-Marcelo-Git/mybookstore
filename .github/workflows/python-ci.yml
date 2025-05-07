@@ -1,4 +1,4 @@
-# mybookstore\.github\workflows\python-ci.yml
+# mybookstore/.github/workflows/python-ci.yml
 name: Python CI
 
 on:
@@ -37,15 +37,15 @@ jobs:
     - name: Define PYTHONPATH
       run: echo "PYTHONPATH=$(pwd)/bookstore-api" >> $GITHUB_ENV
 
-    - name: Executa testes com SQLite, mostra cobertura e salva HTML
+    - name: Executa testes (config via pytest.ini)
       working-directory: ./bookstore-api
       env:
         ENV_FILE: .env.test
       run: |
-        pytest --cov=. --cov-report=term-missing --cov-report=html || echo "⚠️ Testes ainda não implementados"
+        pytest || echo "⚠️ Testes ainda não implementados"
 
     - name: Salva cobertura como artefato
-      if: success()
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: coverage-report
