@@ -1,19 +1,22 @@
-from sqlalchemy.orm import Session
-from database import engine, SessionLocal, Base
+# tests/test_database.py
+
+from database import SessionLocal, get_db, engine
+from sqlalchemy import text
+
+def test_get_db_yields_session():
+    gen = get_db()
+    db = next(gen)
+    assert db is not None
+    assert hasattr(db, "commit")
+    assert hasattr(db, "execute")
+    gen.close()  # finaliza o generator para passar pelo finally
 
 def test_engine_connection():
-    # Verifica se consegue conectar ao banco e retornar uma conexão válida
     with engine.connect() as conn:
-        assert conn.closed is False
+        result = conn.execute(text("SELECT 1"))
+        assert result.scalar() == 1
 
-def test_session_local():
-    # Verifica se uma sessão pode ser criada e é instância de Session
+def test_session_local_instance():
     db = SessionLocal()
-    try:
-        assert isinstance(db, Session)
-    finally:
-        db.close()
-
-def test_base_class():
-    # Verifica se Base é uma classe declarativa funcional
-    assert hasattr(Base, 'metadata')
+    assert db.bind == engine
+    db.close()
