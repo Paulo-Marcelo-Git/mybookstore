@@ -4,7 +4,7 @@ import os
 import pytest
 from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
-from database import SessionLocal, get_db, engine, get_env_or_fail
+from database import SessionLocal, get_db, engine
 from importlib import reload
 import database
 
