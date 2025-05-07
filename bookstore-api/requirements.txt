@@ -1,7 +1,0 @@
-# mybookstore\bookstore-api\requirements.txt
-fastapi
-uvicorn
-SQLAlchemy
-pymysql
-python-dotenv
-httpx

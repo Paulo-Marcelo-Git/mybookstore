@@ -1,0 +1,20 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+fastapi = "*"
+uvicorn = "*"
+sqlalchemy = "*"
+pymysql = "*"
+python-dotenv = "*"
+httpx = "*"
+
+[dev-packages]
+pytest = "*"
+pytest-cov = "*"
+cryptography = "*"
+
+[requires]
+python_version = "3.12"
