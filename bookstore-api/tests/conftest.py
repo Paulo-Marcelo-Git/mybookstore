@@ -1,4 +1,4 @@
-# tests/conftest.py
+# mybookstore\bookstore-api\tests\conftest.py
 
 
 import os
