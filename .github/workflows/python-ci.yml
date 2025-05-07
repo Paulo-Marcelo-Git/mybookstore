@@ -28,21 +28,22 @@ jobs:
         echo "DB_PORT=" >> bookstore-api/.env.test
         echo "DB_NAME=test.db" >> bookstore-api/.env.test
 
-    - name: Instala dependências
+    - name: Instala o Pipenv e dependências
+      working-directory: ./bookstore-api
       run: |
-        python -m pip install --upgrade pip
-        pip install -r bookstore-api/requirements.txt
-        pip install pytest pytest-cov cryptography
+        pip install --upgrade pip
+        pip install pipenv
+        pipenv install --dev --deploy
 
     - name: Define PYTHONPATH
       run: echo "PYTHONPATH=$(pwd)/bookstore-api" >> $GITHUB_ENV
 
-    - name: Executa testes (config via pytest.ini)
+    - name: Executa testes (com cobertura)
       working-directory: ./bookstore-api
       env:
         ENV_FILE: .env.test
       run: |
-        pytest || echo "⚠️ Testes ainda não implementados"
+        pipenv run pytest || echo "⚠️ Testes ainda não implementados"
 
     - name: Salva cobertura como artefato
       if: always()
