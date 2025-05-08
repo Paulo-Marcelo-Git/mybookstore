@@ -1,4 +1,3 @@
-# mybookstore\bookstore-api\main.py
 from fastapi import FastAPI, HTTPException, Depends, Request, status
 from fastapi.responses import HTMLResponse, FileResponse
 from sqlalchemy.orm import Session
@@ -6,15 +5,31 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 import logging
 import time
+import colorlog
+import sys
 import models, schemas
 from database import SessionLocal, engine
 
-# 🔧 Logging genérico
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-)
-logger = logging.getLogger(__name__)
+# Garante saída UTF-8 no terminal
+sys.stdout.reconfigure(encoding='utf-8')
+
+# 🔧 Logging com colorlog
+handler = colorlog.StreamHandler()
+handler.setFormatter(colorlog.ColoredFormatter(
+    "%(log_color)s%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+    log_colors={
+        "DEBUG": "cyan",
+        "INFO": "green",
+        "WARNING": "yellow",
+        "ERROR": "red",
+        "CRITICAL": "bold_red",
+    }
+))
+
+logger = colorlog.getLogger("bookstore")
+logger.addHandler(handler)
+logger.setLevel(logging.INFO)
 
 TZ = ZoneInfo("America/Sao_Paulo")
 
@@ -31,6 +46,7 @@ app = FastAPI(
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
+    # print("🔍 Requisição interceptada:", request.method, request.url.path)
     idem = f"{request.method} {request.url.path}"
     logger.info(f"→ {idem}")
     start_time = time.time()

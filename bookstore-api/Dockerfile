@@ -1,3 +1,4 @@
+# mybookstore\bookstore-api\Dockerfile
 FROM python:3.12-slim
 
 # Define timezone
@@ -27,5 +28,5 @@ COPY . .
 # Expõe a porta da API
 EXPOSE 8000
 
-# Usa o pipenv para rodar o Uvicorn
-CMD ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "info", "--access-log"]
+# Executa a aplicação diretamente
+CMD ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "debug", "--reload"]

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "45eb5699047c5784b82e4604feeb920b88a1c4fa3b80190350d27a466f6bc924"
+            "sha256": "31495f0235fcd73714059bacc4e32afb6730754f89b3d8fcf378e41e26e651a2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -47,6 +47,15 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==8.1.8"
+        },
+        "colorlog": {
+            "hashes": [
+                "sha256:5906e71acd67cb07a71e779c47c4bcb45fb8c2993eebe9e5adcd6a6f1b283eff",
+                "sha256:bfba54a1b93b94f54e1f4fe48395725a3d92fd2a4af702f6bd70946bdc0c6ac2"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.6'",
+            "version": "==6.9.0"
         },
         "fastapi": {
             "hashes": [
@@ -115,7 +124,7 @@
                 "sha256:e98328b8b8f160925d6b1c5b1879d8e64f6bd8cf11472b7127d579da575b77d9",
                 "sha256:ff38c869ed30fff07f1452d9a204ece1ec6d3c0870e0ba6e478ce7c1515acf22"
             ],
-            "markers": "python_version < '3.14' and (platform_machine == 'aarch64' or (platform_machine == 'ppc64le' or (platform_machine == 'x86_64' or (platform_machine == 'amd64' or (platform_machine == 'AMD64' or (platform_machine == 'win32' or platform_machine == 'WIN32'))))))",
+            "markers": "python_version < '3.14' and platform_machine == 'aarch64' or (platform_machine == 'ppc64le' or (platform_machine == 'x86_64' or (platform_machine == 'amd64' or (platform_machine == 'AMD64' or (platform_machine == 'win32' or platform_machine == 'WIN32')))))",
             "version": "==3.2.1"
         },
         "h11": {

@@ -10,6 +10,7 @@ sqlalchemy = "*"
 pymysql = "*"
 python-dotenv = "*"
 httpx = "*"
+colorlog = "*"
 
 [dev-packages]
 pytest = "*"
@@ -18,3 +19,4 @@ cryptography = "*"
 
 [requires]
 python_version = "3.12"
+
