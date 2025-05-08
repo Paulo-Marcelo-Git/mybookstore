@@ -1,50 +1,52 @@
 # 📚 Bookstore API
 
-Uma API RESTful simples para gerenciar livros, construída com FastAPI, SQLAlchemy e Docker. Ideal para estudos e projetos base.
+Uma API RESTful moderna para gerenciamento de livros, construída com **FastAPI**, **SQLAlchemy** e **Docker**. Ideal para aprendizado prático, testes e projetos base de backend.
 
 ---
 
 ## 🚀 Tecnologias Utilizadas
 
-- Python 3.12
-- FastAPI
-- SQLAlchemy
-- PyMySQL
-- Docker + Docker Compose
-- GitHub Actions (CI)
+- **Python 3.12**
+- **FastAPI**
+- **SQLAlchemy**
+- **PyMySQL**
+- **Docker + Docker Compose**
+- **GitHub Actions (CI/CD)**
+- **Pytest + Coverage**
 
 ---
 
-## 🧩 Endpoints Principais
+## 🔌 Endpoints Disponíveis
 
-| Método | Endpoint         | Descrição                              |
-|--------|------------------|----------------------------------------|
-| GET    | /books/          | Lista todos os livros (resumo)         |
-| POST   | /books/          | Cria um novo livro                     |
-| GET    | /books/{id}      | Retorna os dados completos de um livro|
-| PUT    | /books/{id}      | Atualiza um livro                      |
-| DELETE | /books/{id}      | Remove um livro e arquiva o registro   |
-| GET    | /documentation   | Exibe a documentação HTML personalizada|
-| GET    | /docs            | Abre o Swagger UI                      |
+| Método | Endpoint         | Descrição                                 |
+|--------|------------------|-------------------------------------------|
+| GET    | `/books/`        | Lista todos os livros (ID + título)       |
+| POST   | `/books/`        | Cria um novo livro                        |
+| GET    | `/books/{id}`    | Retorna dados completos de um livro       |
+| PUT    | `/books/{id}`    | Atualiza dados de um livro existente      |
+| DELETE | `/books/{id}`    | Remove (arquiva) o livro                  |
+| GET    | `/documentation` | Abre a documentação HTML personalizada    |
+| GET    | `/docs`          | Acessa o Swagger UI gerado automaticamente|
 
 ---
 
-## 🐳 Como Rodar com Docker
+## 🐳 Executando com Docker
 
 ```bash
-# Subir os containers
+# Suba os containers com:
 docker-compose up --build
 
 # Acesse:
-# API Swagger: http://localhost:8000/docs
-# Adminer (banco): http://localhost:8080
+# Swagger UI: http://localhost:8000/docs
+# Documentação HTML: http://localhost:8000/documentation
+# Adminer (gerenciador de banco): http://localhost:8080
 ```
 
 ---
 
 ## ⚙️ Variáveis de Ambiente
 
-Crie um arquivo `.env` baseado no exemplo abaixo:
+Crie um arquivo `.env` com as seguintes chaves:
 
 ```env
 DB_USER=root
@@ -56,12 +58,16 @@ DB_NAME=bookstore
 
 ---
 
-## 🧪 Testes
+## 🧪 Rodando os Testes
 
-Há um teste de sanidade em `test_app.py`:
+Utilize `make` ou `pytest` para executar os testes:
 
 ```bash
-pytest
+# Executar testes com cobertura
+make coverage
+
+# Visualizar relatório de cobertura
+make test-html
 ```
 
 ---
@@ -70,32 +76,27 @@ pytest
 
 ```
 bookstore-api/
-├── .env.example
-├── .gitignore
-├── Dockerfile
-├── docker-compose.yml
-├── database.py
-├── models.py
-├── schemas.py
-├── main.py
-├── requirements.txt
-├── test_app.py
-├── docs/
-│   └── index.html
-└── .github/
-    └── workflows/
-        └── python-ci.yml
+├── main.py                  # Entrypoint da API
+├── database.py              # Configuração do banco
+├── models.py                # Models SQLAlchemy
+├── schemas.py               # Schemas Pydantic
+├── tests/                   # Testes automatizados
+├── docs/index.html          # Documentação personalizada
+├── Pipfile / Pipfile.lock   # Dependências do projeto
+├── Dockerfile               # Build da imagem
+├── Makefile                 # Atalhos úteis
+└── .github/workflows/       # CI com GitHub Actions
 ```
 
 ---
 
-## 🛠️ Autor
+## 👨‍💻 Autor
 
-Projeto desenvolvido por [Paulo Marcelo Cardoso Da Silva].  
-Licenciado sob MIT.
+Desenvolvido por **Paulo Marcelo Cardoso Da Silva**  
+Licença MIT – contribuições são bem-vindas!
 
 ---
 
-## ✅ Status
+## ✅ Status do Projeto
 
-Projeto em desenvolvimento 🚧. PRs e sugestões são bem-vindos!
+🚧 Em desenvolvimento – PRs e melhorias são encorajados!

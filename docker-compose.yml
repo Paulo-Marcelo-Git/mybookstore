@@ -7,8 +7,8 @@ services:
       - ./bookstore-api/.env
     ports:
       - "8000:8000"
-    # volumes:
-    #   - ./bookstore-api:/app
+    volumes:
+       - ./bookstore-api:/app
     restart: unless-stopped
     networks:
       - app-network
@@ -16,7 +16,7 @@ services:
     tty: true
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/"]
-      interval: 30s
+      interval: 30m
       timeout: 10s
       retries: 5
 
