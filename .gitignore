@@ -1,4 +1,5 @@
 # mybookstore\.gitignore
+
 # Python
 __pycache__/
 *.py[cod]
@@ -11,6 +12,7 @@ __pycache__/
 # IDEs
 .vscode/
 .idea/
+start.sh
 
 # Logs
 *.log

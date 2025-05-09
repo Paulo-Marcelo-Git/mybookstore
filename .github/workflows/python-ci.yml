@@ -1,4 +1,5 @@
 # mybookstore/.github/workflows/python-ci.yml
+
 name: Python CI
 
 on:
@@ -18,9 +19,9 @@ jobs:
     - name: Configura Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.11'
+        python-version: '3.12'  # Alinhado com o Pipfile
 
-    - name: Cria .env.test para uso com SQLite
+    - name: Cria .env.test para SQLite
       run: |
         echo "DB_USER=" > bookstore-api/.env.test
         echo "DB_PASS=" >> bookstore-api/.env.test
@@ -38,14 +39,19 @@ jobs:
     - name: Define PYTHONPATH
       run: echo "PYTHONPATH=$(pwd)/bookstore-api" >> $GITHUB_ENV
 
-    - name: Executa testes (com cobertura)
+    - name: Lint, Typecheck e Format Check
+      working-directory: ./bookstore-api
+      run: |
+        make check
+
+    - name: Executa testes com cobertura
       working-directory: ./bookstore-api
       env:
         ENV_FILE: .env.test
       run: |
-        pipenv run pytest || echo "⚠️ Testes ainda não implementados"
+        make test
 
-    - name: Salva cobertura como artefato
+    - name: Salva relatório de cobertura
       if: always()
       uses: actions/upload-artifact@v4
       with:
