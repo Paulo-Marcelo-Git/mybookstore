@@ -1,6 +1,5 @@
 # mybookstore\bookstore-api\tests\conftest.py
 
-
 import os
 import pytest
 from fastapi.testclient import TestClient

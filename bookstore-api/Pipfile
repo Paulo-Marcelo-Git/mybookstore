@@ -4,19 +4,28 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [packages]
+# Core Web Framework
 fastapi = "*"
 uvicorn = "*"
+# Database e ORM
 sqlalchemy = "*"
 pymysql = "*"
+# Utilidades
 python-dotenv = "*"
 httpx = "*"
 colorlog = "*"
 
 [dev-packages]
+# Testes
 pytest = "*"
 pytest-cov = "*"
+# Lint e análise estática
+pylint = "*"
+# Segurança e criptografia (caso use tokens, JWT, etc.)
 cryptography = "*"
+black = "*"
+isort = "*"
+mypy = "*"
 
 [requires]
 python_version = "3.12"
-
