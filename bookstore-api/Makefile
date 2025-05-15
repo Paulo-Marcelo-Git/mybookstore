@@ -1,4 +1,4 @@
-# mybookstore\bookstore-api\Makefile
+# mybookstore\bookstore-api\Makefile/
 
 # 📦 Pipenv
 install:
@@ -12,6 +12,9 @@ run:
 
 test:
 	PYTHONPATH=$(shell pwd) pipenv run pytest --cov=. --cov-report=term --cov-fail-under=90
+
+docker-test:
+	docker compose exec backend pipenv run pytest --cov=. --cov-report=term
 
 coverage:
 	PYTHONPATH=$(shell pwd) pipenv run pytest --cov=. --cov-report=html:htmlcov --cov-report=term --cov-fail-under=90
@@ -45,3 +48,7 @@ docker-down:
 # 🧹 Limpeza
 clean:
 	rm -rf __pycache__ .pytest_cache htmlcov
+
+# Início rápido
+start:
+	./start.sh

@@ -1,21 +1,28 @@
 # mybookstore\bookstore-api\models.py
 
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, func
 from database import Base
-from datetime import datetime
-from zoneinfo import ZoneInfo
 
-TZ = ZoneInfo("America/Sao_Paulo")
+class TimestampMixin:
+    create_date = Column(
+        DateTime(timezone=True),
+        default=func.now(),
+        nullable=False
+    )
+    update_date = Column(
+        DateTime(timezone=True),
+        default=func.now(),
+        onupdate=func.now(),
+        nullable=False
+    )
 
-class Book(Base):
+class Book(Base, TimestampMixin):
     __tablename__ = "books"
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(200), nullable=False)
     author = Column(String(100), nullable=False)
     description = Column(String(500), nullable=True)
-    create_date = Column(DateTime, default=lambda: datetime.now(TZ))
-    update_date = Column(DateTime, default=lambda: datetime.now(TZ), onupdate=lambda: datetime.now(TZ))
 
     def __repr__(self):
         return f"<Book(id={self.id}, title='{self.title}')>"
@@ -27,4 +34,11 @@ class BookDelete(Base):
     title = Column(String(200), nullable=False)
     author = Column(String(100), nullable=False)
     description = Column(String(500), nullable=True)
-    delete_date = Column(DateTime, default=lambda: datetime.now(TZ))
+    delete_date = Column(
+        DateTime(timezone=True),
+        default=func.now(),
+        nullable=False
+    )
+
+    def __repr__(self):
+        return f"<BookDelete(id={self.id}, title='{self.title}')>"

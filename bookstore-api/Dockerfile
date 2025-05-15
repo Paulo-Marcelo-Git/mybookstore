@@ -2,7 +2,6 @@
 
 FROM python:3.12-slim
 
-# Define timezone
 RUN apt-get update \
   && apt-get install -y tzdata curl gcc libpq-dev build-essential \
   && ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
@@ -11,23 +10,20 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 ENV TZ=America/Sao_Paulo
-
-# Instala o pipenv
-RUN pip install --no-cache-dir pipenv
-
 WORKDIR /app
 
-# Copia os arquivos do Pipenv
+# Instala Pipenv
+RUN pip install --no-cache-dir pipenv
+
+# Copia Pipfile* e instala **direto no sistema** as deps bloqueadas
 COPY Pipfile Pipfile.lock ./
+RUN pipenv install --deploy --ignore-pipfile --system
 
-# Instala apenas as dependências de produção
-RUN pipenv install --deploy --ignore-pipfile
-
-# Copia o restante do código da app
+# Copia o restante
 COPY . .
 
-# Expõe a porta da API
 EXPOSE 8000
+HEALTHCHECK --interval=30s --timeout=5s CMD curl -f http://localhost:8000/ || exit 1
 
-# Executa a aplicação diretamente
-CMD ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "debug", "--reload"]
+# Inicia Uvicorn **direto**, sem criar venv
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
